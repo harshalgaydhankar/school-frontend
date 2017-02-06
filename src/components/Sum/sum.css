@@ -1,0 +1,21 @@
+.sum {
+    background-color : paleturquoise;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 25px;
+    color :darkblue;
+}
+
+.sum input{
+    background-color: antiquewhite;
+}
+
+.sum button {
+    background-color:deepskyblue;
+}
+
+.sum span{
+    padding: 10px;
+    margin-left: 10px;
+    background-color: lightyellow;
+}
