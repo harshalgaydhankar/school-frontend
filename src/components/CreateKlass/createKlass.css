@@ -1,0 +1,25 @@
+.create-klass{
+  background-color:#00BCD4;
+  border-radius: 10px;
+  border: 2px solid rgba(231, 76, 60,1.0);
+  padding: 10px;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+       -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;
+}
+
+.create-klass .error{
+  background-color: #c0392b;
+  color: white;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.create-klass h3{
+  display: inline-block;
+  border-bottom: 3px double black;
+}
+
+.create-klass span{
+  color: red;
+}

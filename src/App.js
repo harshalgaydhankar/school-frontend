@@ -4,20 +4,29 @@ import './App.css';
 import Sum from './components/Sum/sum'
 import Box from './components/Box/box'
 import List from './components/List/list'
+import CreateStudent from './components/CreateStudent/createStudent'
+import CreateKlass from './components/CreateKlass/createKlass'
+import Registration from './components/Registration/registration'
+
 
 
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.studentCreated=this.studentCreated.bind(this);
+  }
+
+  studentCreated(){
+    console.log('in created');
+  }
+
   render() {
-     const students = [
-             {id:"2",text:"bob",css:"selected"},
-             {id:"4",text:"alice",css:"empty"}
-             ];
-        
+    const items = [];
     return (
         <div className="App">
-          <h1>Class Front</h1>
-          <List header="Students" items={students} />
+        <Registration host="http://localhost:9000"/>
         </div>
       
     );
