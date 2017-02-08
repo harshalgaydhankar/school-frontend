@@ -14,7 +14,8 @@ export default class Registration extends Component {
     this.getStudents=this.getStudents.bind(this);
     this.getKlasses=this.getKlasses.bind(this);
     this.onStudentClick = this.onStudentClick.bind(this);
-    this.state={students:[],klasses : []}
+    this.onKlassClick = this.onKlassClick.bind(this);
+    this.state={students:[],klasses : [],coreKlasses:[]}
   }
 
   componentWillMount(){
@@ -28,17 +29,79 @@ export default class Registration extends Component {
   klassCreated(){
       this.getKlasses();
   }
+  
+  onKlassClick(event){
+        const klassId = event.target.getAttribute("data-id");
+        const css = event.target.getAttribute("class");
+        let studentId = 0 ; 
+        this.state.students.forEach((item)=>{
+            item.css == 'selected' ? studentId = item.id : 0;
+        })
+        let url = this.props.host;    
+        if(css == 'selected'){
+            url = url +"/klasses/"+klassId+"/remove/"+studentId;
+            axios.delete(url).
+            then(rsp =>{
+                //console.log(rsp.data)
+                this.getStudents();
+         
+            }).catch(e => {
+                console.log(e);
+            }); 
+        }
+        else{
+            url = url +"/klasses/"+klassId+"/add/"+studentId;
+            axios.post(url).
+            then(rsp =>{
+                //console.log(rsp.data)
+                this.getStudents();
+         
+            }).catch(e => {
+                console.log(e);
+            }); 
+        }
+
+          
+
+  }
 
   onStudentClick(event){
       const id=event.target.getAttribute("data-id");
       const students = this.state.students;
+      const klasses = this.state.klasses;
       students.forEach((item,index)=>{
-          console.log(id,'===',item.id)
+          
           item.id == id ? item.css = 'selected' : item.css = 'empty';
       })
-      console.log(students);
       this.setState({students});
+      const url = this.props.host + '/students/'+id+'/klasses';
+        axios.get(url).
+        then(rsp =>{
+            const registedKlasses = rsp.data.map((element,index)=>{
+                return {
+                    id : element.id,
+                    text : element.email,
+                    css : 'empty'
+                }
+            });
+            klasses.forEach((klass,index) =>{
+                klass.css='empty';
+            })
+            klasses.forEach((klass,index) =>{
+                registedKlasses.forEach((regKlass,index) =>{
+                    klass.id == regKlass.id ? klass.css = 'selected' : 0;
+                })
+            })
+            this.setState({klasses});
+            
+        }).catch(e => {
+            this.setState({error : e.message});
+        });
+
   }
+
+  
+
 
   getStudents(){
      const url = this.props.host + "/students"
@@ -62,10 +125,11 @@ export default class Registration extends Component {
 
   getKlasses(){
      const url = this.props.host + "/klasses"
+     
      axios.get(url).
      then(rsp =>{
-         
-         const klasses = rsp.data.map((element,index)=>{
+         const coreKlasses = rsp.data;
+         const klasses = coreKlasses.map((element,index)=>{
             return {
                 id : element.id,
                 text : element.name,
@@ -73,7 +137,7 @@ export default class Registration extends Component {
             }
          });
          
-         this.setState({klasses})
+         this.setState({klasses,coreKlasses})
      }).catch(e => {
          this.setState({error : e.message});
      });
@@ -98,7 +162,7 @@ export default class Registration extends Component {
                 <List header="Students" items={this.state.students} click={this.onStudentClick}/>
             </div>
             <div className="col-xs-6">
-                <List header="Klasses" items={this.state.klasses}/>
+                <List header="Klasses" items={this.state.klasses} click={this.onKlassClick}/>
             </div>
           </div>
 

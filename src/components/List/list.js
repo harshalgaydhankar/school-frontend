@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from '../Box/box';
+import './list.css'
 
 export default (props) =>{
     return (

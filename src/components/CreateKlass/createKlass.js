@@ -95,7 +95,7 @@ export default class CreateKlass extends React.Component{
           <div className="form-group">
             <label>Department <span> *</span> : </label>
                
-            <select id="dept" className="selectpicker" ref={n => this.dept = n} value="">
+            <select id="dept" className="selectpicker" ref={n => this.dept = n}>
                 <option value="SCIENCE">SCIENCE</option>
                 <option value="ENGINEERING">ENGINEERING</option>
                 <option value="LITERATURE">LITERATURE</option>
